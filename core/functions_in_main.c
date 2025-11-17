@@ -6,19 +6,28 @@
 /*   By: eprottun <eprottun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:25:43 by eprottun          #+#    #+#             */
-/*   Updated: 2025/11/17 17:43:53 by eprottun         ###   ########.fr       */
+/*   Updated: 2025/11/17 18:59:38 by eprottun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	init_rules(t_data *shared, int argc, char *argv[])
+static int	get_numbers(t_data *shared, int argc, char *argv[])
 {
-	if (argc < 5 || argc > 6)
+	size_t	i;
+	size_t	j;
+
+	i = 1;
+	while (i < argc)
 	{
-		write(2, "./philosophers number_of_philosophers time_to_die time_to_eat \
-time_to_sleep [number_of_times_each_philosopher_must_eat]\n", 121);
-		return (-1);
+		j = 0;
+		while (argv[i][j])
+		{
+			if (argv[i][j] < '0' || argv[i][j] > '9')
+				return (-1);
+			j++;
+		}
+		i++;
 	}
 	shared->total_philos = ft_atoi(argv[1]);
 	shared->time_to_die = ft_atoi(argv[2]);
@@ -28,6 +37,19 @@ time_to_sleep [number_of_times_each_philosopher_must_eat]\n", 121);
 		shared->meal_amount = ft_atoi(argv[5]);
 	else
 		shared->meal_amount = -1;
+	return (0);
+}
+
+int	init_rules(t_data *shared, int argc, char *argv[])
+{
+	if (argc < 5 || argc > 6)
+	{
+		write(2, "./philosophers number_of_philosophers time_to_die time_to_eat \
+time_to_sleep [number_of_times_each_philosopher_must_eat]\n", 121);
+		return (-1);
+	}
+	if (get_numbers(shared, argc, argv) == -1)
+		return (write(2, "only numbers allowed!\n", 23), -1);
 	if (shared->total_philos < 1 || shared->total_philos > 250)
 		return (write(2, "total_philos not 1-250 or overflow\n", 45), -1);
 	if (shared->time_to_die < 10)
