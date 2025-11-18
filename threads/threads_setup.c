@@ -6,7 +6,7 @@
 /*   By: eprottun <eprottun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:28:57 by eprottun          #+#    #+#             */
-/*   Updated: 2025/11/18 14:23:09 by eprottun         ###   ########.fr       */
+/*   Updated: 2025/11/18 16:23:24 by eprottun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	even_philo_setup(t_philosopher *philo, t_data *shared)
 
 	iter = 0;
 	shared->start_time = get_time() + 10;
-	while (iter < shared->total_philos)
+	while (iter < (size_t)shared->total_philos)
 	{
 		philo[iter].last_meal = shared->start_time;
 		philo[iter].meal_count = 0;
@@ -80,7 +80,7 @@ int	odd_philo_setup(t_philosopher *philo, t_data *shared)
 
 	iter = 0;
 	shared->start_time = get_time() + 10;
-	while (iter < shared->total_philos)
+	while (iter < (size_t)shared->total_philos)
 	{
 		philo[iter].last_meal = shared->start_time;
 		philo[iter].meal_count = 0;

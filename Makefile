@@ -1,6 +1,5 @@
 NAME = philosophers
-CC = cc
-# -Wall -Wextra -Werror
+CC = cc -Wall -Wextra -Werror
 OBJ_DIR = obj
 CFLAGS = -MMD -g -I.
 VPATH = core globals threads actions

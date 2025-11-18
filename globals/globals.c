@@ -6,7 +6,7 @@
 /*   By: eprottun <eprottun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:32:59 by eprottun          #+#    #+#             */
-/*   Updated: 2025/11/18 14:21:07 by eprottun         ###   ########.fr       */
+/*   Updated: 2025/11/18 16:23:57 by eprottun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	unlock_forks(t_philosopher *me, int eat_call)
 void	efficient_sleep(long long duration)
 {
 	long long	start;
-	long long	remaining;
 
 	start = get_time();
 	if (duration > 2)

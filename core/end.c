@@ -6,7 +6,7 @@
 /*   By: eprottun <eprottun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:31:30 by eprottun          #+#    #+#             */
-/*   Updated: 2025/11/17 18:23:26 by eprottun         ###   ########.fr       */
+/*   Updated: 2025/11/18 16:23:03 by eprottun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	is_end(t_data *shared, t_philosopher *philo, size_t *philos_done)
 		&& philo->meal_count >= shared->meal_amount)
 	{
 		(*philos_done)++;
-		if (*philos_done >= shared->total_philos)
+		if (*philos_done >= (size_t)shared->total_philos)
 		{
 			end(philo, DINNER_DONE);
 			return (pthread_mutex_unlock(&philo->meal_info), YES);
@@ -58,7 +58,7 @@ int	end_check(t_data *shared, t_philosopher *philo)
 
 	iter = 0;
 	philos_done = 0;
-	while (iter < shared->total_philos)
+	while (iter < (size_t)shared->total_philos)
 	{
 		if (is_end(shared, &philo[iter], &philos_done) == YES)
 			return (DEATH);

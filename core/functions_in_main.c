@@ -6,7 +6,7 @@
 /*   By: eprottun <eprottun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:25:43 by eprottun          #+#    #+#             */
-/*   Updated: 2025/11/18 14:25:17 by eprottun         ###   ########.fr       */
+/*   Updated: 2025/11/18 16:22:02 by eprottun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	get_numbers(t_data *shared, int argc, char *argv[])
 {
-	size_t	i;
+	int		i;
 	size_t	j;
 
 	i = 1;
@@ -71,7 +71,7 @@ int	init_program(t_data *shared, t_philosopher *philo)
 	shared->death = 0;
 	if (pthread_mutex_init(&shared->print, NULL) != 0)
 		return (write(2, "mutex init failed\n", 19), -1);
-	while (iter < shared->total_philos)
+	while (iter < (size_t)shared->total_philos)
 	{
 		if (pthread_mutex_init(&shared->forks[iter].key, NULL) != 0)
 		{
@@ -98,15 +98,15 @@ int	cleanup(t_data *shared, t_philosopher *philo, int amount, int call)
 	iter = 0;
 	if (call != MUTEX)
 	{
-		while (iter < amount)
+		while (iter < (size_t)amount)
 		{
 			pthread_join(shared->threads[iter], NULL);
 			iter++;
 		}
 	}
 	iter = 0;
-	while ((call == MUTEX && iter < amount)
-		|| (call != MUTEX && iter < shared->total_philos))
+	while ((call == MUTEX && iter < (size_t)amount)
+		|| (call != MUTEX && iter < (size_t)shared->total_philos))
 	{
 		pthread_mutex_destroy(&philo[iter].meal_info);
 		pthread_mutex_destroy(&shared->forks[iter].key);
