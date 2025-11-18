@@ -6,7 +6,7 @@
 /*   By: eprottun <eprottun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:25:43 by eprottun          #+#    #+#             */
-/*   Updated: 2025/11/17 18:59:38 by eprottun         ###   ########.fr       */
+/*   Updated: 2025/11/18 13:43:08 by eprottun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,16 @@ int	init_program(t_data *shared, t_philosopher *philo)
 	while (iter < shared->total_philos)
 	{
 		if (pthread_mutex_init(&shared->forks[iter].key, NULL) != 0)
-			return (cleanup(shared, philo, iter), -1);
+		{
+			write(2, "mutex init failed\n", 19);
+			return (cleanup(shared, philo, iter, MUTEX), -1);
+		}
 		if (pthread_mutex_init(&philo[iter].meal_info, NULL) != 0)
-			return (pthread_mutex_destroy(&shared->forks[iter].key),
-				cleanup(shared, philo, iter), -1);
+		{
+			pthread_mutex_destroy(&shared->forks[iter].key);
+			write(2, "mutex init failed\n", 19);
+			return (cleanup(shared, philo, iter, MUTEX), -1);
+		}
 		philo[iter].shared = shared;
 		philo[iter].id = iter;
 		iter++;
@@ -85,14 +91,15 @@ int	init_program(t_data *shared, t_philosopher *philo)
 	return (0);
 }
 
-int	cleanup(t_data *shared, t_philosopher *philo, int amount)
+int	cleanup(t_data *shared, t_philosopher *philo, int amount, int call)
 {
 	size_t	iter;
 
 	iter = 0;
 	while (iter < amount)
 	{
-		pthread_join(shared->threads[iter], NULL);
+		if (call == CREATION_FAIL)
+			pthread_join(shared->threads[iter], NULL);
 		pthread_mutex_destroy(&philo[iter].meal_info);
 		pthread_mutex_destroy(&shared->forks[iter].key);
 		iter++;

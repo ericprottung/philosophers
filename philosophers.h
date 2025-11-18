@@ -28,6 +28,8 @@
 # define BOTH 5
 # define DINNER_DONE 6
 # define CREATION_FAIL 7
+# define FULL 8
+# define MUTEX 9
 
 typedef struct s_fork
 {
@@ -67,7 +69,7 @@ typedef struct s_philosopher
 int			init_rules(t_data *shared, int argc, char *argv[]);
 int			init_program(t_data *shared, t_philosopher *philo);
 void		stopwatch(t_data *shared, t_philosopher *philo);
-int			cleanup(t_data *shared, t_philosopher *philo, int amount);
+int			cleanup(t_data *shared, t_philosopher *philo, int amount, int call);
 
 // end.c
 void		end(t_philosopher *philo, int reason);

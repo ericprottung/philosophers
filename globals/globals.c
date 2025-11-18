@@ -6,7 +6,7 @@
 /*   By: eprottun <eprottun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:32:59 by eprottun          #+#    #+#             */
-/*   Updated: 2025/11/17 18:02:36 by eprottun         ###   ########.fr       */
+/*   Updated: 2025/11/18 13:44:01 by eprottun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,5 @@ long long	get_time(void)
 void	creation_fail(t_philosopher *philo, t_data *shared, size_t amount)
 {
 	end(&philo[0], CREATION_FAIL);
-	cleanup(shared, philo, amount);
+	cleanup(shared, philo, amount, FULL);
 }

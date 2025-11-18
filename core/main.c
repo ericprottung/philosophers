@@ -6,7 +6,7 @@
 /*   By: eprottun <eprottun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:24:34 by eprottun          #+#    #+#             */
-/*   Updated: 2025/11/17 17:38:21 by eprottun         ###   ########.fr       */
+/*   Updated: 2025/11/18 13:43:29 by eprottun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	main(int argc, char *argv[])
 
 	if (init_rules(&shared, argc, argv) == -1)
 		return (1);
-	init_program(&shared, philo);
+	if (init_program(&shared, philo) == -1)
+		return (1);
 	if (shared.total_philos == 1)
 		status = lonely_philo_setup(philo, &shared);
 	else if (shared.total_philos % 2 == 0)
@@ -30,6 +31,6 @@ int	main(int argc, char *argv[])
 	if (status == FAIL)
 		return (1);
 	stopwatch(&shared, philo);
-	cleanup(&shared, philo, shared.total_philos);
+	cleanup(&shared, philo, shared.total_philos, FULL);
 	return (0);
 }
