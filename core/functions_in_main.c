@@ -6,7 +6,7 @@
 /*   By: eprottun <eprottun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:25:43 by eprottun          #+#    #+#             */
-/*   Updated: 2025/11/18 13:43:08 by eprottun         ###   ########.fr       */
+/*   Updated: 2025/11/18 14:25:17 by eprottun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ time_to_sleep [number_of_times_each_philosopher_must_eat]\n", 121);
 	if (get_numbers(shared, argc, argv) == -1)
 		return (write(2, "only numbers allowed!\n", 23), -1);
 	if (shared->total_philos < 1 || shared->total_philos > 250)
-		return (write(2, "total_philos not 1-250 or overflow\n", 45), -1);
+		return (write(2, "total_philos not 1-250 or overflow\n", 36), -1);
 	if (shared->time_to_die < 10)
 		return (write(2, "time_to_die too low or overflowed\n", 35), -1);
 	if (shared->eat_time < 10)
@@ -96,10 +96,18 @@ int	cleanup(t_data *shared, t_philosopher *philo, int amount, int call)
 	size_t	iter;
 
 	iter = 0;
-	while (iter < amount)
+	if (call != MUTEX)
 	{
-		if (call == CREATION_FAIL)
+		while (iter < amount)
+		{
 			pthread_join(shared->threads[iter], NULL);
+			iter++;
+		}
+	}
+	iter = 0;
+	while ((call == MUTEX && iter < amount)
+		|| (call != MUTEX && iter < shared->total_philos))
+	{
 		pthread_mutex_destroy(&philo[iter].meal_info);
 		pthread_mutex_destroy(&shared->forks[iter].key);
 		iter++;

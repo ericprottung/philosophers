@@ -6,7 +6,7 @@
 /*   By: eprottun <eprottun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:28:57 by eprottun          #+#    #+#             */
-/*   Updated: 2025/11/17 18:33:40 by eprottun         ###   ########.fr       */
+/*   Updated: 2025/11/18 14:23:09 by eprottun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,7 @@ int	lonely_philo_setup(t_philosopher *philo, t_data *shared)
 	philo[0].meal_count = 0;
 	if (pthread_create(&shared->threads[0], NULL, lonely_philo, &philo[0]) != 0)
 	{
-		pthread_mutex_destroy(&philo[0].meal_info);
-		pthread_mutex_destroy(&shared->forks[0].key);
-		pthread_mutex_destroy(&shared->print);
+		cleanup(shared, philo, 0, CREATION_FAIL);
 		return (write(2, "creation of threads failed!\n", 29), -1);
 	}
 	return (0);
